@@ -1,6 +1,6 @@
 language: generic
 
-sudo:required
+sudo: required
 
 services:
   - docker
@@ -11,13 +11,12 @@ before_install:
 script:
   - docker run -e CI=true jamieecode/react-test-app npm run test
 
-
 after_success:
   - docker build -t jamieecode/docker-frontend ./frontend
   - docker build -t jamieecode/docker-backend ./backend
   - docker build -t jamieecode/docker-nginx ./nginx
 
-  - echo "DOCKER_HUB_PASSWORD" | docker login -u "$DOCKER_HUB_ID" --pasword-stdin
+  - echo "DOCKER_HUB_PASSWORD" | docker login -u "$DOCKER_HUB_ID" --password-stdin
 
   - docker push jamieecode/docker-frontend
   - docker push jamieecode/docker-backend
