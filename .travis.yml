@@ -21,3 +21,15 @@ after_success:
   - docker push jamieecode/docker-frontend
   - docker push jamieecode/docker-backend
   - docker push jamieecode/docker-nginx
+
+deploy:
+  provider: elasticbeanstalk
+  region: "ap-northeast-2"
+  app: "docker-fulltstack-app"
+  env: "Docker-fulltstack-app-env"
+  bucket_name: elasticbeanstalk-ap-northeast-2-533267259028
+  bucket_path: "docker-fulltstack-app"
+  on:
+    branch: main
+  access_key_id: $AWS_ACCESS_KEY
+  secret_access_key: $AWS_SECRET_ACCESS_KEY
