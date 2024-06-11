@@ -12,23 +12,23 @@ script:
   - docker run -e CI=true jamieecode/react-test-app npm run test
 
 after_success:
-  - docker build -t jamieecode/docker-frontend:latest ./frontend
-  - docker build -t jamieecode/docker-backend:latest ./backend
-  - docker build -t jamieecode/docker-nginx:latest ./nginx
+  - docker build -t jamieecode/docker-frontend ./frontend
+  - docker build -t jamieecode/docker-backend ./backend
+  - docker build -t jamieecode/docker-nginx ./nginx
 
-  - echo "DOCKER_HUB_PASSWORD" | docker login -u "$DOCKER_HUB_ID" --password-stdin
+  - echo "$DOCKER_HUB_PASSWORD" | docker login -u "$DOCKER_HUB_ID" --password-stdin
 
-  - docker push jamieecode/docker-frontend:latest --log-level debug
-  - docker push jamieecode/docker-backend:latest --log-level debug
-  - docker push jamieecode/docker-nginx:latest --log-level debug
+  - docker push jamieecode/docker-frontend --log-level debug
+  - docker push jamieecode/docker-backend --log-level debug
+  - docker push jamieecode/docker-nginx --log-level debug
 
 deploy:
   provider: elasticbeanstalk
   region: "ap-northeast-2"
-  app: "docker-fulltstack-app"
-  env: "Docker-fulltstack-app-env"
+  app: "docker-fullstack-app"
+  env: "Docker-fullstack-app-env"
   bucket_name: elasticbeanstalk-ap-northeast-2-533267259028
-  bucket_path: "docker-fulltstack-app"
+  bucket_path: "docker-fullstack-app"
   on:
     branch: main
   access_key_id: $AWS_ACCESS_KEY
